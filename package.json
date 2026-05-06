@@ -1,0 +1,15 @@
+{
+  "name": "isekai-newspaper",
+  "type": "module",
+  "scripts": {
+    "generate:newspaper": "node scripts/generate-isekai-newspaper.mjs"
+  },
+  "dependencies": {
+    "@openai/openai": "latest",
+    "openai": "latest",
+    "puppeteer": "latest",
+    "resend": "latest",
+    "date-fns": "latest"
+  },
+  "devDependencies": {}
+}
