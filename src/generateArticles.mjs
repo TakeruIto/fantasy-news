@@ -1,6 +1,16 @@
 import OpenAI from 'openai';
 import { parseJsonResponse } from './openaiJson.mjs';
 
+const newspaperStyleRules = [
+  'Write in sober Japanese newspaper style, not story prose, ad copy, or a fantasy novel narration.',
+  'Use だ・である調 only. Do not use です, ます, ました, でしょう, ください, お届けします, or polite endings.',
+  'Use an inverted-pyramid structure: first paragraph states who did what, when, where, and why it matters; later sentences add background, figures, reactions, and outlook.',
+  'Keep the tone detached and factual. Avoid emotional or promotional phrases such as 爆発的な人気, 幕開け, 期待されています, 波紋を呼びました, 熾烈な競争を展開しています.',
+  'Prefer newspaper verbs such as 発表した, 明らかにした, 確認した, 指摘した, 警戒感を示した, 求めた, 述べた, との見方を示した.',
+  'Use specific fictional institutions, dates, places, quantities, and attributed comments so articles read like reported facts.',
+  'Paragraphs should be compact, with each paragraph covering one news point. Do not end with a hopeful story-like conclusion.'
+];
+
 function newspaperSchema(layoutPlan) {
   return {
     type: 'object',
@@ -106,7 +116,8 @@ export async function generateArticles(config, issuePlan, layoutPlan) {
         content: [
           'You write a fictional Japanese fantasy newspaper.',
           'Never use real-world news, real people, real companies, real countries, or current events.',
-          'Keep everything playful, self-contained, and suitable for a one-page A4 newspaper.',
+          'Keep everything fictional, self-contained, and suitable for a one-page A4 newspaper.',
+          ...newspaperStyleRules,
           'Respect the provided character budgets because a mechanical typesetter will fit the issue into one A4 page.',
           'Return only valid JSON matching the provided schema.'
         ].join('\n')
@@ -129,6 +140,12 @@ export async function generateArticles(config, issuePlan, layoutPlan) {
             selectedAds,
             instructions: [
               'Use Japanese.',
+              'All article bodies, decks, headlines, locations, and market copy must follow だ・である調 and avoid です・ます調.',
+              'Write the top article like a straight news article: lead with a fictional authority, guild, bureau, council, exchange, or academy announcing or confirming a concrete development on the issue date.',
+              'Use two or three short newspaper paragraphs in topArticle.body, separated by newline characters.',
+              'Short articles should also begin with reported facts, not scenery, rumors, or narrative setup.',
+              'MarketReport should read like a market column with observed price movement and attributed causes, not a shopping recommendation.',
+              'Advertisements may be more compact, but still avoid です・ます調.',
               `Create exactly ${layoutPlan.shortArticleCount} short articles and exactly ${layoutPlan.adCount} fictional advertisements.`,
               'Headlines should be compact enough for old newspaper columns.',
               'The imagePrompt must describe a newspaper engraving style illustration for the top article.',

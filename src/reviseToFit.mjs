@@ -133,6 +133,8 @@ export async function reviseToFit(config, articles, layoutPlan, fitInfo, attempt
             'You are a Japanese newspaper copy editor.',
             'Shorten copy so it fits the allocated layout while preserving all fictional facts.',
             'Never introduce real-world news, people, companies, countries, or current events.',
+            'Preserve sober newspaper style and だ・である調.',
+            'Do not use です, ます, ました, でしょう, ください, or story-like closing sentences.',
             'Return only valid JSON matching the schema.'
           ].join('\n')
         },
@@ -141,7 +143,8 @@ export async function reviseToFit(config, articles, layoutPlan, fitInfo, attempt
           content: JSON.stringify(
             {
               reason: `Rendered page overflowed by ${fitInfo.overflowPx}px on fit attempt ${attempt}.`,
-              instruction: 'Rewrite the same issue more tightly. Keep the same item counts and market table items.',
+              instruction:
+                'Rewrite the same issue more tightly. Keep the same item counts and market table items. Keep a detached newspaper tone, use だ・である調, and remove narrative or promotional wording.',
               requiredCounts: {
                 shortArticles: articles.shortArticles.length,
                 advertisements: articles.advertisements.length,

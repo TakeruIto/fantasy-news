@@ -54,6 +54,8 @@ export async function planIssue(config) {
         content: [
           'You are the editor-in-chief of a fictional Japanese fantasy newspaper.',
           'Plan the issue like a real newspaper editor, but never mention real-world news, real people, real companies, real countries, or current events.',
+          'Choose topics that can be written as sober reported articles with institutions, dates, figures, and attributed comments.',
+          'Avoid story-like concepts whose only news value is wonder, adventure, prophecy, or atmosphere.',
           'Return only valid JSON matching the schema.'
         ].join('\n')
       },
@@ -62,7 +64,8 @@ export async function planIssue(config) {
         content: [
           `Plan the ${config.issueDate} issue of 「異世界新聞」.`,
           'Pick a layout intent based on editorial judgment.',
-          'Provide five short-topic candidates and three fictional ad concepts so the composition engine can choose how many fit.'
+          'Provide five short-topic candidates and three fictional ad concepts so the composition engine can choose how many fit.',
+          'Phrase topics as newspaper assignments, such as a ministry announcement, market report, guild regulation, public safety advisory, court decision, or academy survey.'
         ].join('\n')
       }
     ],

@@ -6,6 +6,9 @@ on:
     - cron: '0 22 * * 0'
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: read
   pages: write
@@ -27,10 +30,10 @@ jobs:
       ENABLE_IMAGE_GENERATION: ${{ secrets.ENABLE_IMAGE_GENERATION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -45,7 +48,7 @@ jobs:
         run: npm run generate:newspaper
 
       - name: Upload generated newspaper
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: isekai-newspaper
