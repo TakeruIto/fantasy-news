@@ -29,6 +29,7 @@ npm run generate:newspaper
 生成物は `dist/` に保存されます。
 
 - `dist/isekai-newspaper-YYYY-MM-DD.html`
+- `dist/index.html`
 - `dist/isekai-newspaper-YYYY-MM-DD.pdf`
 - `dist/isekai-newspaper-YYYY-MM-DD.json`
 - `dist/images/isekai-newspaper-YYYY-MM-DD-top.png` または `.svg`
@@ -59,6 +60,7 @@ metadata JSONには、紙面プラン、選択されたレイアウト、文字�
 - `npm ci`
 - `npm run generate:newspaper`
 - `dist/*.pdf`, `dist/*.html`, `dist/*.json`, `dist/images/*` をartifact保存
+- `dist/` をGitHub Pagesへデプロイ
 
 GitHub Secretsに以下を登録してください。
 
@@ -66,6 +68,12 @@ GitHub Secretsに以下を登録してください。
 - `ENABLE_IMAGE_GENERATION`
 
 `ENABLE_IMAGE_GENERATION=true` の場合はOpenAI Images APIでトップ挿絵を生成します。`false` の場合は、文字を含まないローカルの新聞挿絵風SVGを生成します。
+
+## GitHub Pages
+
+workflowは生成後の `dist/` 全体をGitHub Pagesへデプロイします。`dist/index.html` は最新号HTMLのコピーなので、PagesのトップURLで最新号を表示できます。
+
+リポジトリ側では、Settings -> Pages -> Build and deployment -> Source を `GitHub Actions` に設定してください。
 
 ## 新聞仕様
 

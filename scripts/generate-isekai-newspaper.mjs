@@ -51,6 +51,9 @@ async function main() {
     console.log(`HTML revised: ${relativePath(config, htmlInfo.path)}`);
   }
 
+  await fs.copyFile(htmlInfo.path, config.paths.indexHtmlPath);
+  console.log(`Pages index written: ${relativePath(config, config.paths.indexHtmlPath)}`);
+
   const pdfInfo = await createPdf(config);
   console.log(`PDF written: ${relativePath(config, pdfInfo.path)}`);
 
@@ -78,6 +81,7 @@ async function main() {
       prompt: imageInfo.prompt
     },
     outputs: {
+      index: relativePath(config, config.paths.indexHtmlPath),
       html: relativePath(config, htmlInfo.path),
       pdf: relativePath(config, pdfInfo.path)
     }
