@@ -1,8 +1,8 @@
 # 異世界新聞
 
-GitHub Actionsで毎週生成できる、架空ファンタジー新聞の自動生成プロジェクトです。
+GitHub Actionsで毎週、OpenAI Images APIから「異世界で発行されている新聞」のPNGを生成し、GitHub Pagesで発行日別に閲覧できる静的サイトです。
 
-`npm run generate:newspaper` は紙面プラン生成、レイアウト選択、記事生成、トップ挿絵生成、A4縦1ページHTML生成、収まり検査、PDF化、metadata保存までを実行します。
+従来のHTML組版やPDF化は行いません。生成された新聞画像をそのまま紙面として扱います。
 
 ## セットアップ
 
@@ -15,10 +15,12 @@ cp .env.example .env
 
 ```bash
 OPENAI_API_KEY=sk-...
-ENABLE_IMAGE_GENERATION=false
+OPENAI_IMAGE_MODEL=gpt-image-1
+NEWSPAPER_IMAGE_PROMPT=異世界で発行されている新聞を作って。
+ISSUE_TIME_ZONE=Asia/Tokyo
 ```
 
-`OPENAI_API_KEY` は記事生成に必須です。不足している場合は分かりやすいエラーで停止します。
+`OPENAI_IMAGE_MODEL` は利用したい画像生成モデル名に差し替えられます。
 
 ## 実行
 
@@ -28,27 +30,10 @@ npm run generate:newspaper
 
 生成物は `dist/` に保存されます。
 
-- `dist/isekai-newspaper-YYYY-MM-DD.html`
-- `dist/index.html`
-- `dist/isekai-newspaper-YYYY-MM-DD.pdf`
-- `dist/isekai-newspaper-YYYY-MM-DD.json`
-- `dist/images/isekai-newspaper-YYYY-MM-DD-top.png` または `.svg`
-
-## 可変レイアウト
-
-毎号、LLMが編集長として紙面テーマ、ニュース密度、トップ画像の重要度、市況欄の重要度、記事候補、広告候補をJSONで計画します。
-
-コード側はその計画をもとに、以下のテンプレートから機械的にレイアウトを選びます。
-
-- `feature_heavy`: トップ記事を大きく扱う号
-- `lead_image_right`: トップ記事と画像のバランス型
-- `dense_3col`: ニュース数が多い高密度号
-- `banner_lead`: 横長トップ画像を使う号
-- `market_ad_heavy`: 市況欄と広告を目立たせる号
-
-記事本文の文字量は、選ばれたテンプレートの枠に合わせて記事生成前に予算化されます。HTMLレンダリング後にPuppeteerでA4紙面からのはみ出しを検査し、収まらない場合は記事・広告本文を短縮して再レンダリングします。
-
-metadata JSONには、紙面プラン、選択されたレイアウト、文字量予算、収まり検査結果が保存されます。
+- `dist/newspapers/YYYY-MM-DD.png`: 発行日の新聞PNG
+- `dist/issues/YYYY-MM-DD.json`: 生成メタデータ
+- `dist/index.html`: 左側の日付メニューで新聞PNGを切り替える閲覧ページ
+- `dist/manifest.json`: 公開中の号一覧
 
 ## GitHub Actions
 
@@ -59,31 +44,16 @@ metadata JSONには、紙面プラン、選択されたレイアウト、文字�
 - Node.js 22
 - `npm ci`
 - `npm run generate:newspaper`
-- `dist/*.pdf`, `dist/*.html`, `dist/*.json`, `dist/images/*` をartifact保存
 - `dist/` をGitHub Pagesへデプロイ
 
-GitHub Secretsに以下を登録してください。
+GitHub Secrets / Variables:
 
-- `OPENAI_API_KEY`
-- `ENABLE_IMAGE_GENERATION`
+- Secret: `OPENAI_API_KEY`
+- Variable: `OPENAI_IMAGE_MODEL` 任意
+- Variable: `NEWSPAPER_IMAGE_PROMPT` 任意
 
-`ENABLE_IMAGE_GENERATION=true` の場合はOpenAI Images APIでトップ挿絵を生成します。`false` の場合は、文字を含まないローカルの新聞挿絵風SVGを生成します。
+workflowは `dist/newspapers` と `dist/issues` をGitHub Actions cacheから復元してから新号を追加します。これにより、Pagesの左メニューに過去号の日付が並びます。
 
 ## GitHub Pages
 
-workflowは生成後の `dist/` 全体をGitHub Pagesへデプロイします。`dist/index.html` は最新号HTMLのコピーなので、PagesのトップURLで最新号を表示できます。
-
 リポジトリ側では、Settings -> Pages -> Build and deployment -> Source を `GitHub Actions` に設定してください。
-
-## 新聞仕様
-
-- タイトルは「異世界新聞」
-- A4縦1ページ
-- 古い新聞風
-- 2〜3カラム
-- トップ記事1本
-- 短い記事3〜5本
-- 市況欄1本
-- 架空広告2〜3本
-- 現実のニュース・人物・企業は扱わない
-- 画像内に文字を入れない
