@@ -55,6 +55,7 @@ export function getConfig() {
       distDir,
       imagesDir,
       cssPath: path.join(rootDir, 'templates', 'newspaper.css'),
+      indexHtmlPath: path.join(distDir, 'index.html'),
       htmlPath: path.join(distDir, `isekai-newspaper-${issueDate}.html`),
       pdfPath: path.join(distDir, `isekai-newspaper-${issueDate}.pdf`),
       metadataPath: path.join(distDir, `isekai-newspaper-${issueDate}.json`),
