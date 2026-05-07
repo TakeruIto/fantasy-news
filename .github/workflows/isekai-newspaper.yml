@@ -1,0 +1,48 @@
+name: Isekai Newspaper
+
+on:
+  schedule:
+    - cron: "0 22 * * 0"
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      MAIL_TO: ${{ secrets.MAIL_TO }}
+      MAIL_FROM: ${{ secrets.MAIL_FROM }}
+      ENABLE_IMAGE_GENERATION: ${{ secrets.ENABLE_IMAGE_GENERATION }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run generate:newspaper
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: isekai-newspaper
+          path: |
+            dist/*.pdf
+            dist/*.html
+            dist/*.json
+            dist/images/*
+          if-no-files-found: warn
+          retention-days: 30
