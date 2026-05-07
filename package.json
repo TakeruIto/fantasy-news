@@ -1,15 +1,18 @@
 {
   "name": "isekai-newspaper",
+  "version": "1.0.0",
+  "private": true,
   "type": "module",
+  "description": "GitHub Actions scheduled generator for a fictional isekai newspaper PDF.",
   "scripts": {
     "generate:newspaper": "node scripts/generate-isekai-newspaper.mjs"
   },
-  "dependencies": {
-    "@openai/openai": "latest",
-    "openai": "latest",
-    "puppeteer": "latest",
-    "resend": "latest",
-    "date-fns": "latest"
+  "engines": {
+    "node": ">=22"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "openai": "^6.9.1",
+    "puppeteer": "^24.26.1"
+  }
 }
