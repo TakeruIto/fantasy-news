@@ -17,12 +17,6 @@ function optional(name) {
   return value || '';
 }
 
-function booleanEnv(name, fallback = false) {
-  const value = process.env[name]?.trim().toLowerCase();
-  if (!value) return fallback;
-  return ['1', 'true', 'yes', 'on'].includes(value);
-}
-
 function dateInTimeZone(timeZone) {
   const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone,
@@ -39,7 +33,8 @@ export function getConfig() {
   const timeZone = optional('ISSUE_TIME_ZONE') || 'Asia/Tokyo';
   const issueDate = dateInTimeZone(timeZone);
   const distDir = path.join(rootDir, 'dist');
-  const imagesDir = path.join(distDir, 'images');
+  const newspapersDir = path.join(distDir, 'newspapers');
+  const issuesDir = path.join(distDir, 'issues');
 
   return {
     rootDir,
@@ -47,19 +42,17 @@ export function getConfig() {
     timeZone,
     openai: {
       apiKey: required('OPENAI_API_KEY'),
-      textModel: optional('OPENAI_TEXT_MODEL') || 'gpt-4.1-mini',
       imageModel: optional('OPENAI_IMAGE_MODEL') || 'gpt-image-1',
-      enableImageGeneration: booleanEnv('ENABLE_IMAGE_GENERATION', false)
+      newspaperPrompt: optional('NEWSPAPER_IMAGE_PROMPT') || '異世界で発行されている新聞を作って。'
     },
     paths: {
       distDir,
-      imagesDir,
-      cssPath: path.join(rootDir, 'templates', 'newspaper.css'),
+      newspapersDir,
+      issuesDir,
       indexHtmlPath: path.join(distDir, 'index.html'),
-      htmlPath: path.join(distDir, `isekai-newspaper-${issueDate}.html`),
-      pdfPath: path.join(distDir, `isekai-newspaper-${issueDate}.pdf`),
-      metadataPath: path.join(distDir, `isekai-newspaper-${issueDate}.json`),
-      imageBasePath: path.join(imagesDir, `isekai-newspaper-${issueDate}-top`)
+      metadataPath: path.join(issuesDir, `${issueDate}.json`),
+      newspaperPngPath: path.join(newspapersDir, `${issueDate}.png`),
+      manifestPath: path.join(distDir, 'manifest.json')
     }
   };
 }

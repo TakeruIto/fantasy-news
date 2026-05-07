@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "GitHub Actions scheduled generator for a fictional isekai newspaper PDF.",
+  "description": "GitHub Actions scheduled generator for fictional isekai newspaper PNGs.",
   "scripts": {
     "generate:newspaper": "node scripts/generate-isekai-newspaper.mjs"
   },
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "dotenv": "^17.2.3",
-    "openai": "^6.9.1",
-    "puppeteer": "^24.26.1"
+    "openai": "^6.9.1"
   }
 }
