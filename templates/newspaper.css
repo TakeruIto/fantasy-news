@@ -1,0 +1,358 @@
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+:root {
+  --ink: #261d14;
+  --muted: #5d4a35;
+  --paper: #eadbb8;
+  --rule: #3a2b1f;
+  --accent: #7b2f22;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: #d2c09b;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", "Noto Serif JP", "Times New Roman", serif;
+}
+
+.paper {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  padding: 10mm 11mm 9mm;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(70, 49, 30, 0.04) 1px, transparent 1px) 0 0 / 100% 5mm,
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.18), transparent 30%),
+    var(--paper);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.masthead {
+  border-top: 3px double var(--rule);
+  border-bottom: 3px double var(--rule);
+  text-align: center;
+  padding: 2.2mm 0 2.6mm;
+}
+
+.issue-meta,
+.tagline,
+.article-kicker,
+footer {
+  color: var(--muted);
+  font-size: 8.5pt;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 44pt;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.tagline {
+  margin-top: 1mm;
+}
+
+.lead-grid {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: 5mm;
+  padding: 4mm 0;
+  border-bottom: 2px solid var(--rule);
+}
+
+.top-story h2 {
+  margin-top: 1.5mm;
+  font-size: 24pt;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.deck {
+  margin: 2mm 0;
+  padding: 1.4mm 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  color: var(--accent);
+  font-size: 11pt;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.top-story p,
+.short-story p,
+.market p,
+.ad p {
+  font-size: 9.35pt;
+  line-height: 1.55;
+  text-align: justify;
+}
+
+.top-story p {
+  margin-bottom: 1.5mm;
+}
+
+.lead-art {
+  margin: 0;
+  border: 2px solid var(--rule);
+  background: #d7c397;
+  aspect-ratio: 1 / 0.86;
+  overflow: hidden;
+}
+
+.lead-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.35) contrast(1.1) grayscale(0.25);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4mm;
+  padding-top: 4mm;
+}
+
+.short-story,
+.market,
+.ad {
+  break-inside: avoid;
+  padding-bottom: 3mm;
+  border-bottom: 1px solid rgba(38, 29, 20, 0.45);
+}
+
+.short-story h3,
+.market h3,
+.ad h3 {
+  margin: 1mm 0 1.5mm;
+  font-size: 13pt;
+  line-height: 1.12;
+}
+
+.article-kicker {
+  border-bottom: 1px solid rgba(38, 29, 20, 0.45);
+  padding-bottom: 0.7mm;
+}
+
+.market {
+  border: 1px solid var(--rule);
+  padding: 2.5mm;
+  background: rgba(255, 249, 225, 0.25);
+}
+
+table {
+  width: 100%;
+  margin-top: 2mm;
+  border-collapse: collapse;
+  font-size: 8.4pt;
+}
+
+th,
+td {
+  padding: 1mm 0;
+  border-top: 1px solid rgba(38, 29, 20, 0.35);
+  text-align: left;
+  vertical-align: top;
+}
+
+td:last-child {
+  text-align: right;
+}
+
+.ad {
+  min-height: 29mm;
+  padding: 2.5mm;
+  border: 2px solid var(--rule);
+  text-align: center;
+}
+
+.ad h3 {
+  color: var(--accent);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 4mm;
+  margin-top: 3mm;
+  padding-top: 1.8mm;
+  border-top: 2px solid var(--rule);
+}
+
+.layout-feature .lead-grid {
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 4mm;
+}
+
+.layout-feature .lead-art {
+  aspect-ratio: 1 / 1.12;
+}
+
+.layout-feature .top-story h2 {
+  font-size: 26pt;
+}
+
+.layout-feature .columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.layout-balanced .columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.layout-dense {
+  padding-top: 9mm;
+  padding-bottom: 8mm;
+}
+
+.layout-dense .masthead {
+  padding: 1.6mm 0 2mm;
+}
+
+.layout-dense h1 {
+  font-size: 39pt;
+}
+
+.layout-dense .lead-grid {
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 3.5mm;
+  padding: 3mm 0;
+}
+
+.layout-dense .lead-art {
+  aspect-ratio: 1 / 1.04;
+}
+
+.layout-dense .top-story h2 {
+  font-size: 20pt;
+}
+
+.layout-dense .deck {
+  margin: 1.4mm 0;
+  padding: 1mm 0;
+  font-size: 10pt;
+}
+
+.layout-dense .top-story p,
+.layout-dense .short-story p,
+.layout-dense .market p,
+.layout-dense .ad p {
+  font-size: 8.35pt;
+  line-height: 1.42;
+}
+
+.layout-dense .short-story h3,
+.layout-dense .market h3,
+.layout-dense .ad h3 {
+  font-size: 11.3pt;
+}
+
+.layout-dense .columns {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3mm;
+  padding-top: 3mm;
+}
+
+.layout-dense .market {
+  padding: 2mm;
+}
+
+.layout-dense .ad {
+  min-height: 22mm;
+  padding: 2mm;
+}
+
+.layout-banner .lead-grid {
+  grid-template-columns: 1fr;
+  gap: 2.5mm;
+  padding: 3mm 0;
+}
+
+.layout-banner .lead-art {
+  order: -1;
+  aspect-ratio: 2.85 / 1;
+}
+
+.layout-banner .top-story h2 {
+  font-size: 22pt;
+}
+
+.layout-banner .top-story p:not(.deck) {
+  columns: 2;
+  column-gap: 5mm;
+}
+
+.layout-banner .columns {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3mm;
+  padding-top: 3mm;
+}
+
+.layout-banner .market {
+  grid-column: span 2;
+}
+
+.layout-market h1 {
+  font-size: 41pt;
+}
+
+.layout-market .lead-grid {
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3.5mm;
+  padding: 3mm 0;
+}
+
+.layout-market .top-story h2 {
+  font-size: 20pt;
+}
+
+.layout-market .deck {
+  margin: 1.4mm 0;
+  padding: 1mm 0;
+}
+
+.layout-market .top-story p,
+.layout-market .short-story p,
+.layout-market .market p,
+.layout-market .ad p {
+  font-size: 8.7pt;
+  line-height: 1.46;
+}
+
+.layout-market .columns {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3mm;
+  padding-top: 3mm;
+}
+
+.layout-market .market {
+  grid-column: span 2;
+}
+
+.layout-market .ad {
+  min-height: 23mm;
+}
+
+@media screen {
+  body {
+    padding: 16px;
+  }
+}
