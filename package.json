@@ -13,7 +13,6 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "openai": "^6.9.1",
-    "puppeteer": "^24.26.1",
-    "resend": "^6.4.0"
+    "puppeteer": "^24.26.1"
   }
 }

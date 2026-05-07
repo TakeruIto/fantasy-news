@@ -12,9 +12,6 @@ jobs:
     timeout-minutes: 15
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-      MAIL_TO: ${{ secrets.MAIL_TO }}
-      MAIL_FROM: ${{ secrets.MAIL_FROM }}
       ENABLE_IMAGE_GENERATION: ${{ secrets.ENABLE_IMAGE_GENERATION }}
     steps:
       - name: Checkout

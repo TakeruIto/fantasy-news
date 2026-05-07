@@ -51,11 +51,6 @@ export function getConfig() {
       imageModel: optional('OPENAI_IMAGE_MODEL') || 'gpt-image-1',
       enableImageGeneration: booleanEnv('ENABLE_IMAGE_GENERATION', false)
     },
-    mail: {
-      resendApiKey: optional('RESEND_API_KEY'),
-      to: optional('MAIL_TO'),
-      from: optional('MAIL_FROM')
-    },
     paths: {
       distDir,
       imagesDir,

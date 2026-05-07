@@ -2,7 +2,7 @@
 
 GitHub Actionsで毎週生成できる、架空ファンタジー新聞の自動生成プロジェクトです。
 
-`npm run generate:newspaper` は紙面プラン生成、レイアウト選択、記事生成、トップ挿絵生成、A4縦1ページHTML生成、収まり検査、PDF化、metadata保存、PDF添付メール送信までを実行します。
+`npm run generate:newspaper` は紙面プラン生成、レイアウト選択、記事生成、トップ挿絵生成、A4縦1ページHTML生成、収まり検査、PDF化、metadata保存までを実行します。
 
 ## セットアップ
 
@@ -15,15 +15,10 @@ cp .env.example .env
 
 ```bash
 OPENAI_API_KEY=sk-...
-RESEND_API_KEY=re_...
-MAIL_TO=you@example.com
-MAIL_FROM=Isekai Newspaper <newspaper@example.com>
 ENABLE_IMAGE_GENERATION=false
 ```
 
 `OPENAI_API_KEY` は記事生成に必須です。不足している場合は分かりやすいエラーで停止します。
-
-メール送信に必要な `RESEND_API_KEY`, `MAIL_TO`, `MAIL_FROM` のいずれかが不足している場合、HTML/PDF/metadataの生成までは成功し、メール送信だけスキップします。
 
 ## 実行
 
@@ -68,9 +63,6 @@ metadata JSONには、紙面プラン、選択されたレイアウト、文字�
 GitHub Secretsに以下を登録してください。
 
 - `OPENAI_API_KEY`
-- `RESEND_API_KEY`
-- `MAIL_TO`
-- `MAIL_FROM`
 - `ENABLE_IMAGE_GENERATION`
 
 `ENABLE_IMAGE_GENERATION=true` の場合はOpenAI Images APIでトップ挿絵を生成します。`false` の場合は、文字を含まないローカルの新聞挿絵風SVGを生成します。

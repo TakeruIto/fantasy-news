@@ -9,7 +9,6 @@ import { renderHtml } from '../src/renderHtml.mjs';
 import { inspectHtmlFit } from '../src/fitPage.mjs';
 import { reviseToFit } from '../src/reviseToFit.mjs';
 import { createPdf } from '../src/createPdf.mjs';
-import { sendMail } from '../src/sendMail.mjs';
 
 function relativePath(config, filePath) {
   return path.relative(config.rootDir, filePath).replaceAll(path.sep, '/');
@@ -55,21 +54,6 @@ async function main() {
   const pdfInfo = await createPdf(config);
   console.log(`PDF written: ${relativePath(config, pdfInfo.path)}`);
 
-  let mailError = null;
-  let mailInfo;
-  try {
-    mailInfo = await sendMail(config, articles, pdfInfo, htmlInfo.headlines);
-    console.log(mailInfo.sent ? 'Mail sent' : `Mail skipped: ${mailInfo.reason}`);
-  } catch (error) {
-    mailError = error;
-    mailInfo = {
-      sent: false,
-      skipped: false,
-      error: error.message
-    };
-    console.error(`Mail failed: ${error.message}`);
-  }
-
   const metadata = {
     issueDate: config.issueDate,
     timeZone: config.timeZone,
@@ -96,14 +80,11 @@ async function main() {
     outputs: {
       html: relativePath(config, htmlInfo.path),
       pdf: relativePath(config, pdfInfo.path)
-    },
-    mail: mailInfo
+    }
   };
 
   await fs.writeFile(config.paths.metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8');
   console.log(`Metadata written: ${relativePath(config, config.paths.metadataPath)}`);
-
-  if (mailError) throw mailError;
 }
 
 main().catch((error) => {
