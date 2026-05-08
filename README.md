@@ -1,8 +1,15 @@
 # 異世界新聞
 
-GitHub Actionsで毎週、OpenAI Images APIから「異世界で発行されている新聞」のPNGを生成し、GitHub Pagesで発行日別に閲覧できる静的サイトです。
+GitHub Actionsで毎日、OpenAI Images APIから「異世界で発行されている新聞」のPNGを生成し、GitHub Pagesで発行日別に閲覧できる静的サイトです。
 
 従来のHTML組版やPDF化は行いません。生成された新聞画像をそのまま紙面として扱います。
+
+## 概要
+
+- 毎日 07:00 JST に新しい新聞画像を生成します。
+- `workflow_dispatch` から任意のタイミングで手動生成できます。
+- 過去号のPNGとメタデータをGitHub Actions cacheから復元し、新号を追加してGitHub Pagesへ公開します。
+- 公開ページでは左側の日付メニューから発行日ごとの紙面を切り替えられます。
 
 ## セットアップ
 
@@ -20,7 +27,7 @@ NEWSPAPER_IMAGE_PROMPT=異世界で発行されている新聞を作って。
 ISSUE_TIME_ZONE=Asia/Tokyo
 ```
 
-`OPENAI_IMAGE_MODEL` は利用したい画像生成モデル名に差し替えられます。
+`OPENAI_IMAGE_MODEL` は利用したい画像生成モデル名に差し替えられます。`ISSUE_TIME_ZONE` は発行日の算出に使われ、未指定時は `Asia/Tokyo` です。
 
 ## 実行
 
@@ -35,15 +42,18 @@ npm run generate:newspaper
 - `dist/index.html`: 左側の日付メニューで新聞PNGを切り替える閲覧ページ
 - `dist/manifest.json`: 公開中の号一覧
 
+同じ発行日のPNGがすでに存在する場合は上書きされます。
+
 ## GitHub Actions
 
 `.github/workflows/isekai-newspaper.yml` は以下で実行されます。
 
-- 毎週月曜 07:00 JST
+- 毎日 07:00 JST（cron上は前日 22:00 UTC）
 - `workflow_dispatch` による手動実行
 - Node.js 22
 - `npm ci`
 - `npm run generate:newspaper`
+- 生成物をActions artifactとして30日間保存
 - `dist/` をGitHub Pagesへデプロイ
 
 GitHub Secrets / Variables:
